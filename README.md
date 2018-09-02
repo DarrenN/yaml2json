@@ -1,3 +1,8 @@
 yaml2json
 =========
-README text here.
+
+Racket flavored version of `yaml2json`
+
+---
+
+Copyright 2018 Darren Newton

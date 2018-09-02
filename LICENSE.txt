@@ -1,5 +1,5 @@
 yaml2json
-Copyright (c) 2018 shibuya
+Copyright (c) 2018 Darren Newton
 
 This package is distributed under the GNU Lesser General Public
 License (LGPL).  This means that you can link yaml2json into proprietary
