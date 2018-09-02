@@ -44,10 +44,9 @@
           [else
            (let ([keys (hash-keys hsh)])
              (foldl (λ (key result)
-                      (hash-set! result (string->symbol key)
-                                 (hash->hasheq (hash-ref hsh key)))
-                      result)
-                    (make-hasheq) keys))]))
+                      (hash-set result (string->symbol key)
+                                (hash->hasheq (hash-ref hsh key))))
+                    (make-immutable-hasheq) keys))]))
 
   (define (run in-port filename)
     (let* ([contents (port->string in-port)]
