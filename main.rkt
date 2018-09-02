@@ -31,5 +31,48 @@
   )
 
 (module+ main
-  ;; Main entry point, executed when run with the `racket` executable or DrRacket.
-  )
+  (require json
+           yaml
+           racket/bool
+           racket/cmdline
+           racket/port)
+
+  ;; Recursively convert hash -> hasheq which is a valid jsexpr?
+  (define (hash->hasheq hsh)
+    (cond [(list? hsh) (map hash->hasheq hsh)]
+          [(not (or (hash? hsh) (list? hsh))) hsh]
+          [else
+           (let ([keys (hash-keys hsh)])
+             (foldl (λ (key result)
+                      (hash-set! result (string->symbol key)
+                                 (hash->hasheq (hash-ref hsh key)))
+                      result)
+                    (make-hasheq) keys))]))
+
+  (define (run in-port filename)
+    (let* ([contents (port->string in-port)]
+           [yaml (string->yaml contents)]
+           [json (jsexpr->string (hash->hasheq yaml))])
+      (if (false? filename)
+          (displayln json (current-output-port))
+          (call-with-output-file*
+            filename
+            (λ (out) (displayln json out))
+            #:mode 'text #:exists 'replace))))
+
+  (define output-filename (make-parameter #f))
+
+  (define convert-yaml
+    (command-line
+     #:program "yaml2json"
+     #:once-each
+     [("-o" "--output") out "Path to save JSON"
+                        (output-filename out)]
+
+     #:args filename ; expect one command-line argument: <filename>
+
+     (run
+      (if (null? filename)
+          (current-input-port)
+          (open-input-file (car filename)))
+      (output-filename)))))
