@@ -17,10 +17,10 @@ $ cat .travis.yml | yaml2json | json_pp // will emit nicely formatted JSON
 ### To install:
 
 ``` shell
-$ ./install.sh
+$ make makebin
 ```
 
-The shell script will build a Racket binary and copy to `/usr/local/bin/yaml2json`.
+The Makefile will setup the project and build a Racket binary and copy to `/usr/local/bin/yaml2json`.
 
 ### Prerequisites:
 

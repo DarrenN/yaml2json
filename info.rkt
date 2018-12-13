@@ -1,6 +1,7 @@
 #lang info
 (define collection "yaml2json")
 (define deps '("base"
+               "yaml"
                "rackunit-lib"))
 (define build-deps '("scribble-lib" "racket-doc"))
 (define scribblings '(("scribblings/yaml2json.scrbl" ())))
