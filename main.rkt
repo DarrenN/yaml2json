@@ -42,6 +42,16 @@
           (λ (out) (displayln json out))
           #:mode 'text #:exists 'replace))))
 
+;; Handle a user break (ex: Cc)
+(define/contract (handle-break e)
+  (-> exn:break? void?)
+  (displayln (format "Break: ~a" (exn-message e))))
+
+;; Handle an error
+(define/contract (handle-error e)
+  (-> exn? void?)
+  (displayln (format "Error: ~a" (exn-message e))))
+
 
 ;//////////////////////////////////////////////////////////////////////////////
 ; PUBLIC
@@ -53,19 +63,21 @@
 
   ;; Parse command line args
   (define convert-yaml
-    (command-line
-     #:program "yaml2json"
-     #:once-each
-     [("-o" "--output") out "Path to save JSON"
-                        (output-filename out)]
+    (with-handlers ([exn:break? handle-break]
+                    [exn? handle-error])
+      (command-line
+       #:program "yaml2json"
+       #:once-each
+       [("-o" "--output") out "Path to save JSON"
+                          (output-filename out)]
 
-     #:args filename ; expect one command-line argument: <filename>
+       #:args filename ; expect one command-line argument: <filename>
 
-     (run
-      (if (null? filename)
-          (current-input-port)
-          (open-input-file (car filename)))
-      (output-filename)))))
+       (run
+        (if (null? filename)
+            (current-input-port)
+            (open-input-file (car filename)))
+        (output-filename))))))
 
 ;//////////////////////////////////////////////////////////////////////////////
 ; TESTS
