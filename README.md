@@ -5,26 +5,39 @@ Racket flavored version of `yaml2json`
 
 Super simple YAML to JSON converter, meant for use as a CLI command. Will take a filename to open and parse or read from `stdin`.
 
+### Prerequisites:
+
+You will need a [Racket](https://racket-lang.org/).
+
+
 ### To use:
 
 ``` shell
 $ yaml2json alpha.yaml // will emit a JSON string in the terminal
 $ yaml2json -o alpha.json alpha.yaml // will save JSON to alpha.json
 $ cat alpha.yaml | yaml2json // will emit a JSON string in the terminal
-$ cat .travis.yml | yaml2json | json_pp // will emit nicely formatted JSON
+$ cat .travis.yml | yaml2json | jq // will emit nicely formatted JSON
 ```
 
 ### To install:
+
+If you have your shell `PATH` setup to run executables from your Racket's `/bin` folder then you can just intall the package with:
+
+``` shell
+$ make install
+```
+
+Otherwise you can build an executable and move it to `/usr/local/bin`:
 
 ``` shell
 $ make makebin
 ```
 
-The Makefile will setup the project and build a Racket binary and copy to `/usr/local/bin/yaml2json`.
+### Run the tests:
 
-### Prerequisites:
-
-You will need a [Racket](https://racket-lang.org/).
+``` shell
+$ make test
+```
 
 ### License
 
@@ -34,4 +47,4 @@ You will need a [Racket](https://racket-lang.org/).
 
 ---
 
-Copyright 2018 Darren Newton
+Copyright (c) 2018 Darren Newton
