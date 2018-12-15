@@ -8,7 +8,7 @@
 ;; $ yaml2json alpha.yaml // will emit a JSON string in the terminal
 ;; $ yaml2json -o alpha.json alpha.yaml // will save JSON to alpha.json
 ;; $ cat alpha.yaml | yaml2json // will emit a JSON string in the terminal
-;; $ cat .travis.yml | yaml2json | json_pp // will emit nicely formatted JSON
+;; $ cat .travis.yml | yaml2json | jq // will emit nicely formatted JSON
 
 (require json
          yaml
